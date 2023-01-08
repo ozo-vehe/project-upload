@@ -23,7 +23,8 @@
   // Methods
   const uploadImage = async(e) => {
     const files = e.target.files[0];
-    store.upload(files);
+    const url = await store.upload(files);
+    console.log(url)
   }
 
   const uploadProject = async() => {
