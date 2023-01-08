@@ -4,7 +4,8 @@ import storage from '../firebaseInit'
 
 export const useProjectUplaod = defineStore("project", {
   state: () => ({
-    project: {},
+    projects: [],
+    imageURL: null,
   }),
   actions: {
     async upload(files) {
@@ -20,8 +21,7 @@ export const useProjectUplaod = defineStore("project", {
   
       await getDownloadURL(storageRef).then((url) => {
         console.log(url);
-        imageURL = url;
-        return imageURL;
+        this.imageURL = url;
       }).catch((error) => {
         console.log(error);
       })

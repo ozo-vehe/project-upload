@@ -1,30 +1,29 @@
 <script setup>
   import { reactive, ref } from 'vue';
   import { useProjectUplaod } from '../stores/projectUpload';
+  import { storeToRefs } from 'pinia';
 
   const store = useProjectUplaod();
-
-  const project = reactive({
-    image: "image link",
-    name: "",
-    tags: [
-      "Art Direction",
-      "Brand Identity",
-      "UI Design"
-    ],
-    description: "Holzarbeit is a small business that provides luxury interior decor services for individuals and firms on a tight budget.",
-    link: "https://www.google.com",
-    type: [ "Brand Design" ],
-  })
-
+  const { imageURL } = storeToRefs(store);
   const disable = ref(false);
+  let tags = ref("");
+  let type = ref("");
+  const project = reactive({
+    image: null,
+    name: null,
+    tags: [],
+    description: null,
+    link: null,
+    type: [],
+  });
 
 
   // Methods
   const uploadImage = async(e) => {
     const files = e.target.files[0];
-    const url = await store.upload(files);
-    console.log(url)
+    await store.upload(files);
+    console.log(imageURL.value);
+    project.image = imageURL.value;
   }
 
   const uploadProject = async() => {
@@ -44,7 +43,7 @@
       </div>
       <div>
         <label for="desc">Project Description</label>
-        <input id="desc" class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3" type="text" v-model="project.name" />
+        <input id="desc" class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3" type="text" v-model="project.description" />
       </div>
       <div>
         <label for="tags">Project Tags</label>
@@ -53,7 +52,7 @@
           class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3"
           type="text"
           placeholder="Tags seperated by a comma"
-          v-model="project.name" />
+          v-model="tags" />
       </div>
       <div>
         <label for="type">Project Type</label>
@@ -62,7 +61,7 @@
           class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3"
           type="text"
           placeholder="Type(s) seperated by a comma"
-          v-model="project.name" />
+          v-model="type" />
       </div>
       <div class="flex flex-col">
         <label for="image">Project Image</label>
