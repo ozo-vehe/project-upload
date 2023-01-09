@@ -5,7 +5,7 @@
 
   const store = useProjectUpload();
   const { imageURL } = storeToRefs(store);
-  let disable = ref(true);
+  let disable = ref(false);
   let tags = ref(null);
   let type = ref(null);
   let name = ref(null);
@@ -33,11 +33,7 @@
       tags: [...tagArr],
       type: [...typeArr],
     }
-
-    store.uploadProject(project);
-
-    console.log(tagArr);
-    console.log(project);
+    await store.saveProject(project);
   }
 
     // console.log(project);

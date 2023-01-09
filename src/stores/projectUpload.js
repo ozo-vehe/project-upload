@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import app from '../firebaseInit';
+import { getFirestore, doc, addDoc, setDoc, collection } from 'firebase/firestore/lite';
 import { getStorage } from 'firebase/storage';
-import { getFirestore } from 'firebase/firestore/lite';
 
 export const useProjectUpload = defineStore('projectUpload', {
   state: () => ({
@@ -28,8 +28,22 @@ export const useProjectUpload = defineStore('projectUpload', {
         console.log(error);
       })
     },
-    async uploadProject(project) {
+    async saveProject(project) {
       console.log("yes")
+      console.log(project);
+
+      const db = getFirestore(app);
+      const docName = Date.now();
+      console.log(docName.toString());
+      const collectionRef = collection(db, "projects");
+      const docRef = doc(db, "projects", docName.toString())
+      try {
+        console.log("Sending...")
+        await setDoc(docRef, project)
+        console.log("Doc added")
+      } catch(error) {
+        console.log(error);
+      }
     }
   }
 })
