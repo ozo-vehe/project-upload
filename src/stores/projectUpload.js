@@ -1,16 +1,18 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import storage from '../firebaseInit'
+import app from '../firebaseInit';
+import { getStorage } from 'firebase/storage';
+import { getFirestore } from 'firebase/firestore/lite';
 
-export const useProjectUplaod = defineStore("project", {
+export const useProjectUpload = defineStore('projectUpload', {
   state: () => ({
     projects: [],
     imageURL: null,
   }),
   actions: {
     async upload(files) {
+      const storage = getStorage(app);
       const storageRef = ref(storage, "images");
-      let imageURL = null;
 
       await uploadBytes(storageRef, files).then((snapshot) => {
         console.log("successfully uploaded")
@@ -27,8 +29,7 @@ export const useProjectUplaod = defineStore("project", {
       })
     },
     async uploadProject(project) {
-      if(!project.name || project.description || project.image || project.link || project.tags || project.type) return false;
-      
+      console.log("yes")
     }
   }
 })

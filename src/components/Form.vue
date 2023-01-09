@@ -1,21 +1,16 @@
 <script setup>
-  import { reactive, ref } from 'vue';
-  import { useProjectUplaod } from '../stores/projectUpload';
+  import { ref } from 'vue';
+  import { useProjectUpload } from '../stores/projectUpload';
   import { storeToRefs } from 'pinia';
 
-  const store = useProjectUplaod();
+  const store = useProjectUpload();
   const { imageURL } = storeToRefs(store);
-  const disable = ref(false);
-  let tags = ref("");
-  let type = ref("");
-  const project = reactive({
-    image: null,
-    name: null,
-    tags: [],
-    description: null,
-    link: null,
-    type: [],
-  });
+  let disable = ref(true);
+  let tags = ref(null);
+  let type = ref(null);
+  let name = ref(null);
+  let description = ref(null);
+  let link = ref(null);
 
 
   // Methods
@@ -23,12 +18,26 @@
     const files = e.target.files[0];
     await store.upload(files);
     console.log(imageURL.value);
-    project.image = imageURL.value;
   }
 
   const uploadProject = async() => {
-    if(!project.name || project.description || project.image || project.link || project.tags || project.type) return false;
-    
+    // if(!name || !description || !imageURL || !link || !tags || !type) return false;
+    const tagArr = tags.value.split(',');
+    const typeArr = type.value.split(',');
+
+    const project = {
+      image: imageURL.value,
+      name: name.value,
+      description: description.value,
+      link: link.value,
+      tags: [...tagArr],
+      type: [...typeArr],
+    }
+
+    store.uploadProject(project);
+
+    console.log(tagArr);
+    console.log(project);
   }
 
     // console.log(project);
@@ -39,11 +48,15 @@
     <form class="flex flex-col flex-wrap w-450 px-4 box-border">
       <div>
         <label for="name">Project Name</label>
-        <input id="name" class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3" type="text" v-model="project.name" />
+        <input id="name" class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3" type="text" v-model="name" />
       </div>
       <div>
         <label for="desc">Project Description</label>
-        <input id="desc" class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3" type="text" v-model="project.description" />
+        <input id="desc" class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3" type="text" v-model="description" />
+      </div>
+      <div>
+        <label for="link">Project Link</label>
+        <input id="link" class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3" type="text" v-model="link" />
       </div>
       <div>
         <label for="tags">Project Tags</label>
