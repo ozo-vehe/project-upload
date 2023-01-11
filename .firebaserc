@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "obatobiayeni"
+  },
+  "targets": {
+    "obatobiayeni": {
+      "hosting": {
+        "project-upload": [
+          "upload-design"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
