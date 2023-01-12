@@ -46,6 +46,14 @@ export const useProjectUpload = defineStore('projectUpload', {
       } catch(error) {
         console.log(error);
       }
+    },
+    async getProjects() {
+      const db = getFirestore(app);
+      const docs = await getDocs(collection(db, "projects"));
+      this.projects = [];
+      docs.forEach((doc) => {
+        this.projects.push(doc.data());
+      });
     }
   }
 })

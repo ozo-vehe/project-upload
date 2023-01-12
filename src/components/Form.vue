@@ -7,11 +7,10 @@
   const { imageURL } = storeToRefs(store);
   let disable = ref(false);
   let tags = ref(null);
-  let type = ref(null);
+  let type = ref("All");
   let name = ref(null);
   let description = ref(null);
   let link = ref(null);
-
 
   // Methods
   const uploadImage = async(e) => {
@@ -23,7 +22,6 @@
   const uploadProject = async() => {
     // if(!name || !description || !imageURL || !link || !tags || !type) return false;
     const tagArr = tags.value.split(',');
-    const typeArr = type.value.split(',');
 
     const project = {
       image: imageURL.value,
@@ -31,12 +29,18 @@
       description: description.value,
       link: link.value,
       tags: [...tagArr],
-      type: [...typeArr],
+      type: type.value,
     }
     await store.saveProject(project);
+
+    // Resset values to their default values
+    tags.value = null;
+    type.value = "All";
+    name.value = null;
+    description.value = null;
+    link.value = null;
   }
 
-    // console.log(project);
 </script>
 
 <template>
@@ -65,12 +69,16 @@
       </div>
       <div>
         <label for="type">Project Type</label>
-        <input
+        <select
           id="type"
           class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3"
-          type="text"
-          placeholder="Type(s) seperated by a comma"
-          v-model="type" />
+          v-model="type"
+          @change="selectedOption"
+        >
+          <option value="All">All</option>
+          <option value="brand design">Brand Design</option>
+          <option value="product design">Product Design</option>
+        </select>
       </div>
       <div class="flex flex-col">
         <label for="image">Project Image</label>
