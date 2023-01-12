@@ -12,7 +12,9 @@ export const useProjectUpload = defineStore('projectUpload', {
   actions: {
     async upload(files) {
       const storage = getStorage(app);
-      const storageRef = ref(storage, "images");
+      const imageName = files.name;
+      console.log(imageName);
+      const storageRef = ref(storage, imageName);
 
       await uploadBytes(storageRef, files).then((snapshot) => {
         console.log("successfully uploaded")
