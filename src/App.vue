@@ -6,7 +6,6 @@
 <template>
   <main>
     <FormVue />
-    <ProjectList />
   </main>
 </template>
 

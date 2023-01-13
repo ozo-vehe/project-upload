@@ -2,6 +2,7 @@
   import { ref } from 'vue';
   import { useProjectUpload } from '../stores/projectUpload';
   import { storeToRefs } from 'pinia';
+  import ProjectList from './ProjectList.vue';
 
   const store = useProjectUpload();
   const { imageURL } = storeToRefs(store);
@@ -11,12 +12,16 @@
   let name = ref(null);
   let description = ref(null);
   let link = ref(null);
+  let imageLoader = ref(false);
+  let submitLoader = ref(false);
 
   // Methods
   const uploadImage = async(e) => {
+    imageLoader.value = true;
     const files = e.target.files[0];
     await store.upload(files);
     enableBtn();
+    imageLoader.value = false;
   }
 
   const enableBtn = () => {
@@ -25,6 +30,7 @@
   }
 
   const uploadProject = async() => {
+    imageLoader.value = true;
     // if(!name || !description || !imageURL || !link || !tags || !type) return false;
     const tagArr = tags.value.split(',');
 
@@ -46,6 +52,7 @@
     description.value = null;
     link.value = null;
     disable.value = true;
+    imageLoader.value = false;
   }
 
 </script>
@@ -91,16 +98,21 @@
       <div class="flex flex-col">
         <label for="image">Project Image</label>
         <input id="image" class="my-2" type="file" accept="image/*" @change="uploadImage($event)"/>
+        <p v-if="imageLoader" class="border border-r-black rounded-full animate-spin h-5 w-5 mx-auto text-center loader">
+        </p>
       </div>
       <button
         @click.prevent="uploadProject"
         :disabled="disable"
-        class="border w-52 mx-auto my-4 rounded-md py-2 mt-8 bg-gray-700 text-gray-200"
+        class="border w-52 flex items-center justify-center gap-4 mx-auto my-4 rounded-md py-2 mt-8 bg-gray-700 text-gray-200"
       >
-        Upload
+        <p v-if="submitLoader" class="border border-r-black rounded-full animate-spin h-5 w-5 text-center loader">
+        </p>
+        <p>Upload</p>
       </button>
     </form>
   </main>
+  <ProjectList v-if="submitLoader" />
 </template>
 
 <style scope>
