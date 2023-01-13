@@ -5,7 +5,7 @@
 
   const store = useProjectUpload();
   const { imageURL } = storeToRefs(store);
-  let disable = ref(false);
+  let disable = ref(true);
   let tags = ref(null);
   let type = ref("All");
   let name = ref(null);
@@ -16,7 +16,12 @@
   const uploadImage = async(e) => {
     const files = e.target.files[0];
     await store.upload(files);
-    console.log(imageURL.value);
+    enableBtn();
+  }
+
+  const enableBtn = () => {
+    if(!name.value || !description.value || !imageURL.value || !link.value || !tags.length > 1 || !type.value) disable.value = true;
+    else disable.value = false;
   }
 
   const uploadProject = async() => {
@@ -32,6 +37,7 @@
       type: type.value,
     }
     await store.saveProject(project);
+    await store.getProjects();
 
     // Resset values to their default values
     tags.value = null;
@@ -39,6 +45,7 @@
     name.value = null;
     description.value = null;
     link.value = null;
+    disable.value = true;
   }
 
 </script>
@@ -48,15 +55,15 @@
     <form class="flex flex-col flex-wrap w-450 px-4 box-border">
       <div>
         <label for="name">Project Name</label>
-        <input id="name" class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3" type="text" v-model="name" />
+        <input id="name" class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3" type="text" v-model="name" @change="enableBtn"/>
       </div>
       <div>
         <label for="desc">Project Description</label>
-        <input id="desc" class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3" type="text" v-model="description" />
+        <input id="desc" class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3" type="text" v-model="description" @change="enableBtn" />
       </div>
       <div>
         <label for="link">Project Link</label>
-        <input id="link" class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3" type="text" v-model="link" />
+        <input id="link" class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3" type="text" v-model="link" @change="enableBtn" />
       </div>
       <div>
         <label for="tags">Project Tags</label>
@@ -65,7 +72,8 @@
           class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3"
           type="text"
           placeholder="Tags seperated by a comma"
-          v-model="tags" />
+          v-model="tags"
+          @change="enableBtn" />
       </div>
       <div>
         <label for="type">Project Type</label>
@@ -73,7 +81,7 @@
           id="type"
           class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3"
           v-model="type"
-          @change="selectedOption"
+          @change="enableBtn"
         >
           <option value="All">All</option>
           <option value="brand design">Brand Design</option>
@@ -87,10 +95,17 @@
       <button
         @click.prevent="uploadProject"
         :disabled="disable"
-        class="border w-52 mx-auto my-4 rounded-md py-2 mt-8 bg-gray-200 text-black"
+        class="border w-52 mx-auto my-4 rounded-md py-2 mt-8 bg-gray-700 text-gray-200"
       >
         Upload
       </button>
     </form>
   </main>
 </template>
+
+<style scope>
+  button:disabled {
+    background-color: #c0bebe;
+    color: #141414;
+  }
+</style>

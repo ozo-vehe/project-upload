@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import app from '../firebaseInit';
-import { getFirestore, doc, addDoc, setDoc, collection } from 'firebase/firestore/lite';
+import { getFirestore, doc, addDoc, setDoc, getDocs, collection } from 'firebase/firestore/lite';
 import { getStorage } from 'firebase/storage';
 
 export const useProjectUpload = defineStore('projectUpload', {
