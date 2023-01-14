@@ -34,7 +34,6 @@
 
   const uploadProject = async() => {
     loader.value = true;
-    // if(!name || !description || !imageURL || !link || !tags || !type) return false;
     const tagArr = tags.value.split(',');
 
     const project = {
@@ -61,7 +60,6 @@
     spinner.value = true;
     await store.getProjects();    
     length = projects.value.length;
-    console.log(length);
     projectList.value = true;
     spinner.value = false;
   }

@@ -14,19 +14,16 @@ export const useProjectUpload = defineStore('projectUpload', {
     async upload(files) {
       const storage = getStorage(app);
       const imageName = files.name;
-      console.log(imageName);
       const storageRef = ref(storage, imageName);
 
       await uploadBytes(storageRef, files).then((snapshot) => {
-        console.log("successfully uploaded")
-        console.log(snapshot);
+        console.log("successfully uploaded");
       }).catch((error) => {
         console.log(error);
       })
       
       // Get image URL to use in the project object to be stored
       await getDownloadURL(storageRef).then((url) => {
-        console.log(url);
         this.imageURL = url;
       }).catch((error) => {
         console.log(error);
@@ -34,17 +31,12 @@ export const useProjectUpload = defineStore('projectUpload', {
     },
     // Upload project to firebase
     async saveProject(project) {
-      console.log("yes")
-      console.log(project);
-
       const db = getFirestore(app);
       const docName = Date.now();
-      console.log(docName.toString());
       const docRef = doc(db, "projects", docName.toString())
+
       try {
-        console.log("Sending...")
-        await setDoc(docRef, project)
-        console.log("Doc added")
+        await setDoc(docRef, project);
       } catch(error) {
         console.log(error);
       }
@@ -56,8 +48,6 @@ export const useProjectUpload = defineStore('projectUpload', {
       this.projects = [];
       docs.forEach((doc) => {
         this.projects.push({id: doc.id, ...doc.data()});
-        console.log(doc);
-        console.log(this.projects);
       });
     },
     // Delete a project

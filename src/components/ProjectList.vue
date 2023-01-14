@@ -1,7 +1,5 @@
 <script setup>
-  import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
-import { useProjectUpload } from '../stores/projectUpload';
+  import { useProjectUpload } from '../stores/projectUpload';
 
   const store = useProjectUpload();
   const { delProject } = store;
@@ -9,7 +7,6 @@ import { useProjectUpload } from '../stores/projectUpload';
     projects: Array,
     length: Number
   })
-  // console.log(projects);
 </script>
 
 <template>
