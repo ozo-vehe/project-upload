@@ -15,6 +15,7 @@
   let imageLoader = ref(false);
   let submitLoader = ref(false);
   let projectList = ref(false);
+  let length = ref(projects.value.length);
 
   // Methods
   const uploadImage = async(e) => {
@@ -57,6 +58,8 @@
 
   const showProjects = async() => {
     await store.getProjects();    
+    length = projects.value.length;
+    console.log(length);
     projectList.value = true;
   }
 
@@ -123,7 +126,7 @@
   >
     Show Project Lists
   </button>
-  <ProjectList v-if="projectList" :projects="projects" />
+  <ProjectList v-if="projectList" :projects="projects" :length="length" />
 </template>
 
 <style scope>
