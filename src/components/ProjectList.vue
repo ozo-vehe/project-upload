@@ -13,9 +13,9 @@ import { useProjectUpload } from '../stores/projectUpload';
 </script>
 
 <template>
-  <main class="text-center">
-    <h1 class="text-4xl font-bold underline">Project List</h1>
-    <div class="my-2 w-550 border mx-auto text-left" v-if="length > 0">
+  <main class="text-center mb-8">
+    <h1 class="text-4xl font-bold underline mb-4">Project List</h1>
+    <div class="my-2 w-550 mx-auto text-left" v-if="length > 0">
       <ul>
         <li
           v-for="(project, index) in projects"
