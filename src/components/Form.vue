@@ -5,7 +5,7 @@
   import ProjectList from './ProjectList.vue';
 
   const store = useProjectUpload();
-  const { imageURL } = storeToRefs(store);
+  const { imageURL, projects } = storeToRefs(store);
   let disable = ref(true);
   let tags = ref(null);
   let type = ref("All");
@@ -14,6 +14,7 @@
   let link = ref(null);
   let imageLoader = ref(false);
   let submitLoader = ref(false);
+  let projectList = ref(false);
 
   // Methods
   const uploadImage = async(e) => {
@@ -43,7 +44,6 @@
       type: type.value,
     }
     await store.saveProject(project);
-    await store.getProjects();
 
     // Resset values to their default values
     tags.value = null;
@@ -53,6 +53,11 @@
     link.value = null;
     disable.value = true;
     imageLoader.value = false;
+  }
+
+  const showProjects = async() => {
+    await store.getProjects();    
+    projectList.value = true;
   }
 
 </script>
@@ -112,7 +117,13 @@
       </button>
     </form>
   </main>
-  <ProjectList v-if="submitLoader" />
+  <button 
+    class="border w-52 flex items-center justify-center gap-4 mx-auto my-4 rounded-md py-2 mt-8 bg-gray-700 text-gray-200"
+    @click="showProjects"
+  >
+    Show Project Lists
+  </button>
+  <ProjectList v-if="projectList" :projects="projects" />
 </template>
 
 <style scope>

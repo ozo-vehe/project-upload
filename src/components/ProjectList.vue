@@ -1,24 +1,23 @@
 <script setup>
-  import { useProjectUpload } from '../stores/projectUpload';
-  import { storeToRefs} from 'pinia'
-  import { ref, onMounted } from 'vue';
-
-  const store = useProjectUpload();
-  const { projects } = storeToRefs(store);
-  const length = ref(projects.value.length);
-  console.log(projects.value.length);
-  
-  onMounted(async () => {
-    await store.getProjects();
+  defineProps({
+    projects: Array
   })
 </script>
 
 <template>
   <main class="text-center">
     <h1 class="text-4xl font-bold underline">Project List</h1>
-    <div class="my-2" v-if="length > 0">
-      <ul v-for="(project, index) in projects" :key="index">
-        <li class="text-xl py-2 my-2">{{ index + 1 }}. {{ project.name }}</li>
+    <div class="my-2 w-550 border mx-auto text-left" v-if="projects">
+      <ul>
+        <li
+          v-for="(project, index) in projects"
+          :key="index"
+          class="list-decimal text-xl my-1"
+        >
+          {{ project.name }}
+          <span
+            class="border border-red-600 ml-2 px-3 py-1 text-sm bg-red-600 cursor-pointer rounded text-white">delete</span>
+        </li>
       </ul>
     </div>
     <p v-else class="text-2xl my-4">Loading, please wait...</p>
