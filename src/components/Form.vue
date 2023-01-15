@@ -67,7 +67,7 @@
 </script>
 
 <template>
-  <main class="pt-8 flex flex-wrap w-screen box-border">
+  <main class="pt-8 bg-white flex flex-wrap w-screen box-border">
     <div v-if="loader" class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-white/40 z-10">
       <p class="opacity-100 border border-r-black rounded-full animate-spin inline-block h-24 w-24 ml-4 text-center loader">
       </p>

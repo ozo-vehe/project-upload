@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <main class="bg-white box-border">
+  <main class="text-black bg-white box-border">
     <FormVue />
   </main>
 </template>
