@@ -67,14 +67,14 @@
 </script>
 
 <template>
-  <main class="flex flex-wrap items-center justify-center gap-4 h-screen">
+  <main class="pt-8 flex flex-wrap w-screen box-border">
     <div v-if="loader" class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-white/40 z-10">
       <p class="opacity-100 border border-r-black rounded-full animate-spin inline-block h-24 w-24 ml-4 text-center loader">
       </p>
     </div>
-    <form class="flex flex-col flex-wrap w-450 px-4 box-border">
+    <form class="mx-auto px-4 box-border w-400">
       <!-- Project name -->
-      <div>
+      <div class="box-border">
         <label for="name">Project Name</label>
         <input id="name" class="w-full border border-gray-400 rounded px-4 py-3 mt-2 mb-3" type="text" v-model="name" @change="enableBtn"/>
       </div>

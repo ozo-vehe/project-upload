@@ -10,8 +10,8 @@
 </script>
 
 <template>
-  <main class="text-center mb-8">
-    <h1 class="text-4xl font-bold underline mb-4">Project List</h1>
+  <main class="text-center w-screen box-border mb-8">
+    <h1 class="text-4xl w-screen font-bold underline mb-4">Project List</h1>
     <div class="my-2 w-550 mx-auto text-left" v-if="length > 0">
       <ul>
         <li
@@ -24,7 +24,7 @@
             class="border border-red-600 ml-2 px-3 py-1 text-sm bg-red-600 cursor-pointer rounded text-white"
             @click="delProject(project.id)"
           >
-            delete
+            Delete
           </span>
         </li>
       </ul>

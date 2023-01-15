@@ -1,10 +1,9 @@
 <script setup>
   import FormVue from './components/Form.vue';
-  import ProjectList from './components/ProjectList.vue';
 </script>
 
 <template>
-  <main>
+  <main class="bg-white box-border">
     <FormVue />
   </main>
 </template>
